@@ -14,18 +14,19 @@ const useFetchData = url => {
                     headers: { Authorization: `Bearer ${token}` },
                 });
     
-                const result = await res.json();
-    
-                if(!res.ok){
-                    throw new Error(result.message)
+                
+                if (!res.ok) {
+                    // Handle non-2xx HTTP status codes
+                    const errorDetails = await res.json();
+                    throw new Error(errorDetails.message || 'Error fetching data');
                 }
-
-                setData(result.data);
-                console.log(data)
-                setLoading(false);
-            } catch(err){
-                setLoading(false);
-                setError(err.message);
+                const result = await res.json();
+                setData(result.date);
+                console.log(result)
+            } catch (err) {
+                setError(err.message); // Set the error message
+            } finally {
+                setLoading(false); // Ensure loading state is turned off
             }
         };
 

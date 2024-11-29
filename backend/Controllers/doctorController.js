@@ -56,6 +56,7 @@ export const getAllDoctor = async(req, res) =>{
         else{
             doctors = await Doctor.find({isApproved:"approved"}).select("-password");
         }
+        
         res.status(200).json({success:true, message:'Doctors found', date: doctors,
         });
     } catch (err) {
